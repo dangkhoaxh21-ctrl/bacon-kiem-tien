@@ -1,92 +1,157 @@
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bacon Kiếm Tiền</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#100b18;color:#fff;font-family:Arial,sans-serif}
-header{padding:17px;background:#211333;display:flex;align-items:center;gap:14px}
-#toggle{font-size:27px;background:none;padding:5px}
-h1{font-size:22px;color:#d7a8ff;margin:0}
-main{max-width:650px;margin:auto;padding:15px}
-.card{background:#21152e;border:1px solid #49315f;border-radius:14px;padding:17px;margin:14px 0}
-button{cursor:pointer;border:0;border-radius:9px;padding:12px;background:#9149d6;color:white;font-weight:bold}
-nav{display:none;background:#211333;padding:12px}
-nav button{display:block;width:100%;margin:6px 0;text-align:left;background:#30213f}
-nav.open{display:block}
-.balance{font-size:30px;color:#d7a8ff;font-weight:bold}
-small,.note{color:#cbb9da;line-height:1.6}
-.page[hidden]{display:none}
-input,select{width:100%;padding:12px;margin:8px 0;background:#160e20;color:white;border:1px solid #75528c;border-radius:8px}
-footer{text-align:center;padding:20px;color:#9d8bab;font-size:12px}
+body{margin:0;font-family:Arial;background:#f1f4fa;color:#202b46}
+header{background:#202b46;color:white;padding:18px;display:flex;gap:15px;align-items:center}
+#menu{font-size:25px;background:none;color:white;border:0}
+nav{display:none;background:white;padding:12px}
+nav.show{display:flex;gap:8px;flex-wrap:wrap}
+button{cursor:pointer;border:0;border-radius:9px;padding:12px}
+nav button{background:#e8edff}
+main{max-width:600px;margin:20px auto;padding:12px}
+.card{background:white;padding:20px;border-radius:15px;margin-bottom:15px;box-shadow:0 3px 12px #0001}
+input{display:block;width:100%;padding:13px;margin:10px 0;border:1px solid #ccc;border-radius:8px}
+.primary{background:#315be8;color:white;margin:4px}
+.secondary{background:#e8edff;color:#202b46;margin:4px}
+.page{display:none}.page.active{display:block}
+#msg{background:#f1f4fa;padding:10px;border-radius:8px;overflow-wrap:anywhere}
+.small{font-size:14px;color:#626b7b;line-height:1.5}
+.hidden{display:none}
 </style>
 </head>
 <body>
 <header>
-<button id="toggle" onclick="menu()">☰</button>
-<div><h1>🐷 Bacon Kiếm Tiền</h1><small>Tích điểm · Đổi thưởng</small></div>
+<button id="menu">☰</button>
+<strong>Bacon Kiếm Tiền</strong>
 </header>
+
 <nav id="nav">
-<button onclick="show('home')">🏠 Trang chủ</button>
-<button onclick="show('tasks')">🔗 Nhiệm vụ</button>
-<button onclick="show('history')">📜 Lịch sử</button>
-<button onclick="show('redeem')">🎁 Đổi thưởng</button>
-<button onclick="show('account')">👤 Tài khoản</button>
+<button onclick="page('home')">Trang chủ</button>
+<button onclick="page('account')">Tài khoản</button>
+<button onclick="page('tasks')">Nhiệm vụ</button>
+<button onclick="page('history')">Lịch sử</button>
 </nav>
+
 <main>
-<section id="home" class="page">
+<section id="home" class="page active">
 <div class="card">
-<small>Số dư điểm của bạn</small>
-<div class="balance"><span id="balance">0</span> Đ</div>
-<p class="note">Điểm Đ là điểm nội bộ, chưa phải tiền mặt.</p>
-<button onclick="show('tasks')">Xem nhiệm vụ →</button>
+<h2>Chào mừng!</h2>
+<p>Website Bacon Kiếm Tiền đang trong giai đoạn thử nghiệm.</p>
+<button class="primary" onclick="page('account')">Đăng nhập / Đăng ký</button>
 </div>
-<div class="card"><h3>Chào mừng em!</h3><p>Khám phá nhiệm vụ và theo dõi hoạt động tại đây.</p></div>
-</section>
-<section id="tasks" class="page" hidden>
-<h2>🔗 Nhiệm vụ</h2>
 <div class="card">
-<h3>Chưa có nhiệm vụ đối tác</h3>
-<p>Website cần kết nối đối tác thật và xác minh kết quả trước khi cộng điểm.</p>
-<small>Không có điểm nào được cộng từ các nhiệm vụ chưa xác minh.</small>
+<h3>Cách kiếm thưởng</h3>
+<p class="small">Tạo tài khoản, làm nhiệm vụ hợp lệ và nhận điểm khi hệ thống xác minh hoàn thành. Nhiệm vụ thật cần được kết nối với đối tác trước khi sử dụng.</p>
 </div>
 </section>
-<section id="history" class="page" hidden>
-<h2>📜 Lịch sử</h2>
-<div class="card" id="historyList">Chưa có hoạt động.</div>
-</section>
-<section id="redeem" class="page" hidden>
-<h2>🎁 Đổi thưởng</h2>
+
+<section id="account" class="page">
 <div class="card">
-<p>Yêu cầu đổi thẻ điện thoại hoặc Garena</p>
-<label>Loại thẻ</label>
-<select id="cardType"><option>Thẻ điện thoại</option><option>Garena</option></select>
-<label>Mệnh giá mong muốn</label>
-<select id="amount"><option>10.000đ</option><option>20.000đ</option><option>50.000đ</option></select>
-<button onclick="alert('Chưa có hệ thống đổi thưởng thật. Không gửi thông tin cá nhân tại đây.')">Kiểm tra đổi thưởng</button>
-<p class="note">Chưa có đối tác và ngân sách nên hiện chưa thể phát hành thẻ thật.</p>
+<h2>Tài khoản</h2>
+<div id="forms">
+<input id="email" type="email" placeholder="Email" autocomplete="email">
+<input id="password" type="password" placeholder="Mật khẩu (ít nhất 6 ký tự)" autocomplete="current-password">
+<button class="primary" onclick="register()">Tạo tài khoản</button>
+<button class="secondary" onclick="login()">Đăng nhập</button>
+</div>
+<div id="profile" class="hidden">
+<p>Email: <strong id="userEmail"></strong></p>
+<button class="secondary" onclick="logout()">Đăng xuất</button>
+</div>
+<p id="msg">Chưa đăng nhập.</p>
 </div>
 </section>
-<section id="account" class="page" hidden>
-<h2>👤 Tài khoản</h2>
+
+<section id="tasks" class="page">
 <div class="card">
-<p>Trạng thái: Chưa đăng nhập</p>
-<p class="note">Cần xây dựng máy chủ và đăng nhập an toàn để lưu tài khoản, điểm và lịch sử giữa các thiết bị.</p>
+<h2>Nhiệm vụ</h2>
+<p>Hiện chưa có nhiệm vụ thật được kết nối.</p>
+<p class="small">Anh sẽ không tự tạo nhiệm vụ giả hoặc tự cộng điểm khi chưa xác minh hoàn thành.</p>
+</div>
+</section>
+
+<section id="history" class="page">
+<div class="card">
+<h2>Lịch sử</h2>
+<p>Chưa có giao dịch.</p>
 </div>
 </section>
 </main>
-<footer>Bacon Kiếm Tiền · Phiên bản đầu</footer>
-<script>
-function menu(){document.getElementById('nav').classList.toggle('open')}
-function show(id){
-document.querySelectorAll('.page').forEach(p=>p.hidden=p.id!==id);
-document.getElementById('nav').classList.remove('open');
-window.scrollTo(0,0);
+
+<script type="module">
+import {initializeApp} from
+"https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+import {getAuth,createUserWithEmailAndPassword,
+signInWithEmailAndPassword,signOut,onAuthStateChanged}
+from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+const config={
+apiKey:"AIzaSyBvCRN1ior_Ril59scOdAwLtl-ogoZLMrE",
+authDomain:"bacon-kiem-tien.firebaseapp.com",
+projectId:"bacon-kiem-tien",
+storageBucket:"bacon-kiem-tien.firebasestorage.app",
+messagingSenderId:"944140053608",
+appId:"1:944140053608:web:a1b5cd06a2bc9aa2cf1fdd"
+};
+
+const auth=getAuth(initializeApp(config));
+const $=id=>document.getElementById(id);
+
+window.page=id=>{
+document.querySelectorAll(".page").forEach(s=>
+s.classList.toggle("active",s.id===id));
+$("nav").classList.remove("show");
+};
+
+$("menu").onclick=()=>$("nav").classList.toggle("show");
+
+function errorText(e){
+const errors={
+"auth/email-already-in-use":"Email đã đăng ký. Hãy đăng nhập.",
+"auth/invalid-email":"Email không hợp lệ.",
+"auth/weak-password":"Mật khẩu cần ít nhất 6 ký tự.",
+"auth/invalid-credential":"Email hoặc mật khẩu không đúng.",
+"auth/network-request-failed":"Lỗi mạng. Hãy thử lại.",
+"auth/unauthorized-domain":"Hãy thêm tên miền GitHub Pages vào Firebase Authorized domains."
+};
+return errors[e.code]||("Lỗi: "+e.message);
 }
+
+window.register=async()=>{
+const email=$("email").value.trim();
+const password=$("password").value;
+if(!email||!password)return $("msg").textContent="Nhập email và mật khẩu.";
+try{
+await createUserWithEmailAndPassword(auth,email,password);
+$("msg").textContent="Đăng ký thành công!";
+}catch(e){$("msg").textContent=errorText(e);}
+};
+
+window.login=async()=>{
+const email=$("email").value.trim();
+const password=$("password").value;
+if(!email||!password)return $("msg").textContent="Nhập email và mật khẩu.";
+try{
+await signInWithEmailAndPassword(auth,email,password);
+$("msg").textContent="Đăng nhập thành công!";
+}catch(e){$("msg").textContent=errorText(e);}
+};
+
+window.logout=async()=>{
+try{await signOut(auth);}catch(e){$("msg").textContent=errorText(e);}
+};
+
+onAuthStateChanged(auth,user=>{
+$("forms").classList.toggle("hidden",!!user);
+$("profile").classList.toggle("hidden",!user);
+$("userEmail").textContent=user?.email||"";
+if(user)$("msg").textContent="Đã đăng nhập. Nhiệm vụ thật chưa được kết nối.";
+});
 </script>
 </body>
 </html>
-
